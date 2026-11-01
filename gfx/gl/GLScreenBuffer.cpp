@@ -21,13 +21,15 @@ UniquePtr<SwapChainPresenter> SwapChain::Acquire(
     const gfx::TransferFunction transferFunction) {
   MOZ_ASSERT(mFactory);
 
+  const auto normalizedColorSpace = mFactory->NormalizeColorSpace(colorSpace);
+
   std::shared_ptr<SharedSurface> surf;
   if (!mPool.empty()) {
     // Try reuse
     const auto& existingDesc = mPool.front()->mDesc;
     auto newDesc = existingDesc;
     newDesc.size = size;
-    newDesc.colorSpace = colorSpace;
+    newDesc.colorSpace = normalizedColorSpace;
     newDesc.transferFunction = transferFunction;
     if (newDesc != existingDesc || !mPool.front()->IsValid()) {
       mPool = {};
