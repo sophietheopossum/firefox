@@ -22,7 +22,7 @@ TEST(GLScreenBufferSwapChain, RecyclesSurfaceWhenFactoryCoercesColorSpace)
   ASSERT_TRUE(gl->MakeCurrent());
 
   SwapChain swapChain;
-  swapChain.mFactory = MakeUnique<SurfaceFactory_Basic>(*gl);
+  swapChain.mFactory = std::make_unique<SurfaceFactory_Basic>(*gl);
   ASSERT_FALSE(swapChain.mFactory->SupportsCspaces());
 
   const gfx::IntSize size(16, 16);
